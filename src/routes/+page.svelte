@@ -1,3 +1,8 @@
+<svelte:head>
+	<title>shuffle</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+</svelte:head>
+
 <main>
 	<section class="hero">
 		<nav class="navbar" aria-label="Main navigation">
@@ -11,9 +16,11 @@
 
 		<div class="hero-content">
 			<div class="video-stage">
-				<video class="hero-video" autoplay muted loop playsinline>
-					<source src="/audioboard.webm" type="video/webm" />
-				</video>
+				<div class="video-frame">
+					<video class="hero-video" autoplay muted loop playsinline>
+						<source src="/audioboard.webm" type="video/webm" />
+					</video>
+				</div>
 				<div class="hero-cluster top-left">
 					<p class="tag-note">under 19?</p>
 					<p class="hero-tag">Make a PCB</p>
@@ -44,7 +51,7 @@
 				<li>exchange: once approved, sit tight. When the event wraps up, we'll send you a random kit another participant designed, along with a hotplate and supplies to assemble it.</li>
 				<li>profit!?</li>
 			</ol>
-			<p class="about-note">shuffle is a Hack Club program. we’ve shipped hardware to thousands of students worldwide</p>
+			<p class="about-note">shuffle is an upcoming Hack Club program. we’ve shipped hardware to thousands of students worldwide</p>
 		</div>
 	</section>
 
@@ -169,6 +176,11 @@
 		width: min(78vw, 1300px);
 	}
 
+	.video-frame {
+		width: var(--video-scale, 100%);
+		margin: 0 auto;
+	}
+
 	.hero-video {
 		display: block;
 		width: 100%;
@@ -208,6 +220,30 @@
 		right: -10em;
 		bottom: -1em;
 		text-align: right;
+	}
+
+	@media (max-width: 1700px) {
+		.top-left {
+			left: -5.5em;
+		}
+
+		.bottom-right {
+			right: -5.5em;
+		}
+	}
+
+	@media (max-width: 1200px) {
+		.hero-tag {
+			font-size: clamp(1.8rem, 7vw, 6.4rem);
+		}
+
+		.top-left {
+			left: -2.4em;
+		}
+
+		.bottom-right {
+			right: -2.4em;
+		}
 	}
 
 	.about {
@@ -375,6 +411,10 @@
 
 		.video-stage {
 			width: min(92vw, 560px);
+		}
+
+		.video-frame {
+			width: var(--video-scale-mobile, 100%);
 		}
 
 		.hero-cta {

@@ -1,17 +1,34 @@
 <script>
 	import { onMount } from 'svelte';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import favicon from '$lib/assets/favicon.svg';
 	import '../app.css';
 
 	let { children } = $props();
 	let showLoader = $state(true);
+	/** @type {ReturnType<typeof setTimeout> | undefined} */
+	let hideTimer;
 
 	onMount(() => {
-		const timer = setTimeout(() => {
+		const bootTimer = setTimeout(() => {
 			showLoader = false;
 		}, 900);
 
-		return () => clearTimeout(timer);
+		beforeNavigate(() => {
+			showLoader = true;
+		});
+
+		afterNavigate(() => {
+			clearTimeout(hideTimer);
+			hideTimer = setTimeout(() => {
+				showLoader = false;
+			}, 180);
+		});
+
+		return () => {
+			clearTimeout(bootTimer);
+			clearTimeout(hideTimer);
+		};
 	});
 </script>
 
@@ -21,18 +38,23 @@
 
 {@render children()}
 
-{#if showLoader}
-	<div class="boot-loader" aria-live="polite" aria-label="Loading page">
-		<div class="loader-text">
-			<span>loading</span>
-			<span class="loader-dots" aria-hidden="true">
-				<span>.</span>
-				<span>.</span>
-				<span>.</span>
-			</span>
-		</div>
+
+<div
+	class="boot-loader"
+	class:is-visible={showLoader}
+	aria-live="polite"
+	aria-label="Loading page"
+	aria-hidden={!showLoader}
+>
+	<div class="loader-text">
+		<span>loading</span>
+		<span class="loader-dots" aria-hidden="true">
+			<span>.</span>
+			<span>.</span>
+			<span>.</span>
+		</span>
 	</div>
-{/if}
+</div>
 
 <style>
 	.boot-loader {
@@ -42,6 +64,21 @@
 		display: grid;
 		place-items: center;
 		background: #ffffff;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition:
+			opacity 180ms ease,
+			visibility 0s linear 180ms;
+	}
+
+	.boot-loader.is-visible {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transition:
+			opacity 120ms ease,
+			visibility 0s linear 0s;
 	}
 
 	.loader-text {
