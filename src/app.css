@@ -1,0 +1,28 @@
+@font-face {
+	font-family: 'dreamertm';
+	src: url('/fonts/DreamerTM-Regular.woff2') format('woff2');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'terminal';
+	src: url('/fonts/terminal.ttf') format('truetype');
+	font-display: swap;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	color: #0d3dff;
+	font-family: 'dreamertm', sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+	color: inherit;
+}
+
+a {
+	text-decoration: none;
+}
